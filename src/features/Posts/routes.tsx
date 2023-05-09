@@ -4,16 +4,15 @@ import Details from "./pages/details";
 import Edit from "./pages/edit";
 import { List } from "./pages/list";
 
-export const commentsRoutes = {
-    path: 'comments',
-    element: <Outlet />,
+export const postsRoutes = {
+    path: 'posts', element: <Outlet />,
     children: [
         { path: '', element: <List /> },
         {
             path: 'create', element: <Create />
         },
         { path: 'edit/:id', element: <Edit /> },
-        { path: 'details/:id', element: <Details /> },
+        { path: 'details/:id', element: <Details /> }
 
 
 

@@ -49,7 +49,7 @@ export default function ResponsiveDrawer(props: Props) {
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
-            <NavLink to={'/'}>
+            <NavLink to={'comments'}>
               <ListItemText primary={'comments'} />
             </NavLink>
           </ListItemButton>
