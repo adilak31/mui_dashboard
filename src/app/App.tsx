@@ -49,7 +49,7 @@ export default function ResponsiveDrawer(props: Props) {
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
-            <NavLink to={'comments'}>
+            <NavLink to={'/comments'}>
               <ListItemText primary={'comments'} />
             </NavLink>
           </ListItemButton>
@@ -61,6 +61,16 @@ export default function ResponsiveDrawer(props: Props) {
             </ListItemIcon>
             <NavLink to={'/posts'}>
               <ListItemText primary={'posts'} />
+            </NavLink>
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <NavLink to={'/todos'}>
+              <ListItemText primary={'todos'} />
             </NavLink>
           </ListItemButton>
         </ListItem>
