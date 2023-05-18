@@ -1,32 +1,29 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { useAppDispatch, useAppSelector } from "../../../../app/store"
 import { Status } from "../../../../shared/type"
+import { getPostsList } from "../../store/actions"
 import { Post } from "../../type"
 
 
-const listService = () => {
-    const [list, setList] = useState<Post[]>([])
-    const [status, setStatus] = useState<Status>('init')
-    const isLoading = status === 'loading'
-    const isError = status === 'error'
-    const isSuccess = status === 'success'
-    const fetchList = async () => {
-        try {
-            setStatus('loading')
-            const response = await axios.get<Post[]>('https://jsonplaceholder.typicode.com/posts')
-            setList(response.data)
 
-            setStatus('success')
+export const listService = () => {
+    const dispatch = useAppDispatch()
+    const postsState = useAppSelector(state => state.posts.list)
+    const list = postsState.data
+    const isError = postsState.status === 'error'
+    const isLoading = postsState.status === 'loading'
+    const isSuccess = postsState.status === 'success'
 
-        }
-        catch (error) {
-            setStatus('error')
-        }
-    }
+
     useEffect(() => {
-        fetchList()
+        dispatch(getPostsList())
     }, [])
-    return { isError, isLoading, isSuccess, list }
+    return {
+        isError, isLoading, isSuccess, list
+
+    }
+
 
 }
 

@@ -2,7 +2,7 @@ import { TextField, Button, Switch } from "@mui/material"
 import createService from "./createService"
 
 export const CreateTodos = () => {
-    const { formik } = createService()
+    const { formik, isLoading } = createService()
     return (
         <div>
             <form onSubmit={formik.handleSubmit}>
@@ -13,8 +13,8 @@ export const CreateTodos = () => {
                     onChange={formik.handleChange}
 
                 />
-                <Button type={'submit'} variant={'contained'}>
-                    send
+                <Button type={'submit'} variant={'contained'} disabled={isLoading}>
+                    {isLoading ? 'loading' : 'send'}
                 </Button>
             </form>
         </div>

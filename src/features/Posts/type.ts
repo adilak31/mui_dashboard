@@ -3,3 +3,7 @@ export interface Post {
     title: string,
     body: string
 }
+export interface CreatPost {
+    title: string,
+    body: string
+}

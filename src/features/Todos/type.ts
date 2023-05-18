@@ -4,3 +4,7 @@ export interface Todos {
     completed: boolean
 
 }
+export interface CreateTodos {
+    title: string,
+    completed: boolean
+}

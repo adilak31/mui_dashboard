@@ -64,16 +64,18 @@ export default function ResponsiveDrawer(props: Props) {
             </NavLink>
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <NavLink to={'/todos'}>
+        <NavLink to={'/todos'}>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+
               <ListItemText primary={'todos'} />
-            </NavLink>
-          </ListItemButton>
-        </ListItem>
+
+            </ListItemButton>
+          </ListItem>
+        </NavLink>
 
 
       </List>

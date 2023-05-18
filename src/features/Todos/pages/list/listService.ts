@@ -1,28 +1,23 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { useAppDispatch, useAppSelector } from "../../../../app/store"
 import { Status } from "../../../../shared/type"
+import { getTodosList } from "../../store/actions"
 import { Todos } from "../../type"
 
 
 const listService = () => {
-    const [todos, setTodos] = useState<Todos[]>([])
-    const [status, setStatus] = useState<Status>('init')
-    const isLoading = status === 'loading'
-    const isError = status === 'error'
-    const isSuccess = status === 'success'
-    const fetchTodos = async () => {
-        try {
-            setStatus('loading')
-            const response = await axios.get('https://jsonplaceholder.typicode.com/todos/')
-            setTodos(response.data)
-            setStatus('success')
-        }
-        catch (error) {
-            setStatus('error')
-        }
-    }
+    const dispatch = useAppDispatch()
+    const todosState = useAppSelector((state) => state.todos.list)
+    const todos = todosState.data
+    const isError = todosState.status === 'error'
+    const isLoading = todosState.status === 'loading'
+    const isSuccess = todosState.status === 'success'
+
+
+
     useEffect(() => {
-        fetchTodos()
+        dispatch(getTodosList())
     }, [])
     return { isError, isLoading, isSuccess, todos }
 
