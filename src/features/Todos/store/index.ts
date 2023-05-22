@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Status } from "../../../shared/type";
 import { Todos } from "../type";
-import { createTodos, getTodosList } from "./actions";
+import { createTodos, getTodosDetail, getTodosList } from "./actions";
 
 interface Initialstate {
     list: {
@@ -10,6 +10,10 @@ interface Initialstate {
     },
     create: {
         status: Status
+    },
+    detail: {
+        status: Status,
+        data: Todos
     }
 }
 const initialstate: Initialstate = {
@@ -19,6 +23,10 @@ const initialstate: Initialstate = {
     },
     create: {
         status: 'init'
+    },
+    detail: {
+        status: 'init',
+        data: {} as Todos
     }
 }
 const todosSlice = createSlice({
@@ -44,6 +52,16 @@ const todosSlice = createSlice({
             }),
             builder.addCase(createTodos.rejected, (state, action) => {
                 state.create.status = 'error'
+            }),
+            builder.addCase(getTodosDetail.pending, (state, action) => {
+                state.detail.status = 'loading'
+            }),
+            builder.addCase(getTodosDetail.fulfilled, (state, action) => {
+                state.detail.status = 'success'
+                state.detail.data = action.payload
+            }),
+            builder.addCase(getTodosDetail.rejected, (state, action) => {
+                state.detail.status = 'error'
             })
 
 

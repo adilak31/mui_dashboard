@@ -48,3 +48,14 @@ export const createPost = createAsyncThunk(
 
     }
 )
+export const getPostDetail = createAsyncThunk(
+    'post/detail',
+    async (id: string, thunkAPI) => {
+        try {
+            const response = await axios.get<Post>("https://jsonplaceholder.typicode.com/posts/" + id)
+            return response.data
+        } catch (error) {
+
+        }
+    }
+)

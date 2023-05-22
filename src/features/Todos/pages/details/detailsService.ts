@@ -1,32 +1,24 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
+import { useAppDispatch, useAppSelector } from "../../../../app/store"
 import { Status } from "../../../../shared/type"
+import { getTodosDetail } from "../../store/actions"
 import { Todos } from "../../type"
 
 
 const detailsService = () => {
-    const [details, setDetails] = useState<Todos>({} as Todos)
+    const dispatch = useAppDispatch()
+    const detailInfo = useAppSelector(state => state.todos.detail)
     const params = useParams()
-    const [status, setStatus] = useState<Status>('init')
-    const isLoading = status === 'loading'
-    const isError = status === 'error'
-    const isSuccess = status === 'success'
-    const fetchTodos = async () => {
-        try {
-            setStatus('loading')
-            const response = await axios.get('https://jsonplaceholder.typicode.com/todos/' + params.id)
-            setDetails(response.data)
-            setStatus('success')
-        }
-        catch (error) {
-            setStatus('error')
-        }
-    }
+    const isLoading = detailInfo.status === 'loading'
+    const isError = detailInfo.status === 'error'
+    const isSuccess = detailInfo.status === 'success'
+
     useEffect(() => {
-        fetchTodos()
+        dispatch(getTodosDetail(params.id))
     }, [])
-    return { isLoading, isError, isSuccess, details }
+    return { isLoading, isError, isSuccess, details: detailInfo.data }
 }
 
 export default detailsService

@@ -1,33 +1,25 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
+import { useAppDispatch, useAppSelector } from "../../../../app/store"
 import { Status } from "../../../../shared/type"
+import { getCommentsDetail } from "../../store/actions"
 import { Comment } from "../../type"
 
 
 const detailsService = () => {
-    const [details, setDetails] = useState<Comment>({} as Comment)
+    const dispatch = useAppDispatch()
+    const detailInfo = useAppSelector(state => state.comments.detail)
     const params = useParams()
-    const [status, setStatus] = useState<Status>('init')
-    const isLoading = status === 'loading'
-    const isError = status === 'error'
-    const isSuccess = status === 'success'
-    const fetchDetails = async () => {
-        try {
-            setStatus('loading')
-            const response = await axios.get<Comment>('https://jsonplaceholder.typicode.com/comments/' + params.id)
-            setStatus('success')
-            setDetails(response.data)
-        }
-        catch (error) {
-            setStatus('error')
-        }
 
-    }
+    const isLoading = detailInfo.status === 'loading'
+    const isError = detailInfo.status === 'error'
+    const isSuccess = detailInfo.status === 'success'
+
     useEffect(() => {
-        fetchDetails()
+        dispatch(getCommentsDetail(params.id))
     }, [])
-    return { isError, isLoading, isSuccess, details }
+    return { isError, isLoading, isSuccess, details: detailInfo.data }
 }
 
 export default detailsService

@@ -45,3 +45,14 @@ export const createTodos = createAsyncThunk(
         }
     }
 )
+export const getTodosDetail = createAsyncThunk(
+    'todos/detailTodos',
+    async (id: string, thunkAPI) => {
+        try {
+            const response = await axios.get<Todos>("https://jsonplaceholder.typicode.com/todos/" + id)
+            return response.data
+        } catch (error) {
+
+        }
+    }
+)

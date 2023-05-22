@@ -1,34 +1,27 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
+import { useAppDispatch, useAppSelector } from "../../../../app/store"
 import { Status } from "../../../../shared/type"
+import { getPostDetail } from "../../store/actions"
 import { Post } from "../../type"
 
 
 const detailsService = () => {
-    const [details, setDetails] = useState<Post>({} as Post)
-    const params = useParams()
-    const [status, setStatus] = useState<Status>('init')
-    const isLoading = status === 'loading'
-    const isError = status === 'error'
-    const isSuccess = status === 'success'
-    const fetchPosts = async () => {
-        try {
-            setStatus('loading')
-            const response = await axios.get<Post>('https://jsonplaceholder.typicode.com/posts/' + params.id)
-            setDetails(response.data)
-            setStatus('success')
-        }
-        catch (error) {
-            setStatus('error')
-        }
+    const dispatch = useAppDispatch()
+    const detailInfo = useAppSelector(state => state.posts.detail)
 
-    }
+    const params = useParams()
+
+    const isLoading = detailInfo.status === 'loading'
+    const isError = detailInfo.status === 'error'
+    const isSuccess = detailInfo.status === 'success'
+
     useEffect(() => {
-        fetchPosts()
+        dispatch(getPostDetail(params.id))
     }, [])
 
-    return { isLoading, isError, isSuccess, details }
+    return { isLoading, isError, isSuccess, details: detailInfo.data }
 
 }
 

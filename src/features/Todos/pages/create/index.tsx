@@ -11,7 +11,6 @@ export const CreateTodos = () => {
                     checked={formik.values.completed}
                     name={'completed'}
                     onChange={formik.handleChange}
-
                 />
                 <Button type={'submit'} variant={'contained'} disabled={isLoading}>
                     {isLoading ? 'loading' : 'send'}

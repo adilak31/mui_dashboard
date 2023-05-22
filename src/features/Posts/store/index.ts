@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import { Status } from '../../../shared/type'
 import { Post } from '../type'
-import { createPost, getPostsList } from './actions'
+import { createPost, getPostDetail, getPostsList } from './actions'
 
 
 export interface InitialState {
@@ -13,6 +13,10 @@ export interface InitialState {
     },
     create: {
         status: Status
+    },
+    detail: {
+        status: Status,
+        data: Post
     }
 }
 const initialState: InitialState = {
@@ -22,6 +26,10 @@ const initialState: InitialState = {
     },
     create: {
         status: 'init'
+    },
+    detail: {
+        status: 'init',
+        data: {} as Post
     }
 
 }
@@ -45,6 +53,16 @@ export const postSlice = createSlice({
             }),
             builder.addCase(createPost.fulfilled, (state, action) => {
                 state.create.status = 'success'
+            }),
+            builder.addCase(getPostDetail.pending, (state, action) => {
+                state.detail.status = 'loading'
+            }),
+            builder.addCase(getPostDetail.fulfilled, (state, action) => {
+                state.detail.status = 'success'
+                state.detail.data = action.payload
+            }),
+            builder.addCase(getPostDetail.rejected, (state, action) => {
+                state.detail.status = 'error'
             })
 
     }

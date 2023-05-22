@@ -14,3 +14,15 @@ export const getCommentsList = createAsyncThunk(
 
     }
 )
+export const getCommentsDetail = createAsyncThunk(
+    'comments/getCommentsDetail',
+    async (id: string, thunkAPI) => {
+        try {
+            const response = await axios.get<Comment>("https://jsonplaceholder.typicode.com/comments/" + id)
+            return response.data
+        } catch (error) {
+
+        }
+    }
+
+)

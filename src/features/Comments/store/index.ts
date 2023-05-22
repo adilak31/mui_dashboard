@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { Status } from '../../../shared/type'
-import { getCommentsList } from './actions'
+import { getCommentsDetail, getCommentsList } from './actions'
 import { Comment } from '../type'
 
 export interface InitialState {
@@ -9,12 +9,20 @@ export interface InitialState {
         status: Status
         data: Comment[]
     },
+    detail: {
+        status: Status
+        data: Comment
+    }
 }
 
 const initialState: InitialState = {
     list: {
         status: 'init',
         data: []
+    },
+    detail: {
+        status: 'init',
+        data: {} as Comment
     }
 }
 
@@ -32,8 +40,17 @@ export const commentSlice = createSlice({
             }),
             builder.addCase(getCommentsList.rejected, (state, action) => {
                 state.list.status = 'error'
+            }),
+            builder.addCase(getCommentsDetail.pending, (state, action) => {
+                state.detail.status = 'loading'
+            }),
+            builder.addCase(getCommentsDetail.fulfilled, (state, action) => {
+                state.detail.status = 'success'
+                state.detail.data = action.payload
+            }),
+            builder.addCase(getCommentsDetail.rejected, (state, action) => {
+                state.detail.status = 'error'
             })
-
     }
 })
 
